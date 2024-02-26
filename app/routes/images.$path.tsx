@@ -13,10 +13,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
     "images",
     `${params.path}`
   );
+
   try {
     const pngBuffer = await fs.readFile(filePath);
     return new Response(pngBuffer, {
-      headers: { "Content-Type": "image/png" },
+      headers: { "Content-Type": "image/gif" },
     });
   } catch (error) {
     console.error("couldnt find image", error);

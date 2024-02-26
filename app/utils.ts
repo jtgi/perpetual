@@ -101,67 +101,6 @@ export function frameResponse(params: FrameResponseArgs) {
   });
 }
 
-const drawHand = async (
-  context: CanvasRenderingContext2D,
-  imagePath: string,
-  angle: number,
-  offsetX: number,
-  offsetY: number,
-  scaleX: number,
-  scaleY?: number
-) => {
-  const handImage = await loadImage(imagePath);
-  context.save();
-  context.translate(offsetX + 10, offsetY + 40);
-  context.scale(scaleX, scaleY ?? scaleX);
-  context.rotate(angle);
-  context.drawImage(handImage, -handImage.width / 2, -handImage.height / 2);
-  context.restore();
-};
-
-export const drawClock = async (
-  now: Date,
-  watchFacePath: string,
-  hourHandPath: string,
-  minuteHandPath: string,
-  secondHandPath: string
-) => {
-  const watchFace = await loadImage(watchFacePath);
-  const canvas = createCanvas(watchFace.width, watchFace.height);
-  const context = canvas.getContext("2d");
-
-  // Draw watch face
-  context.drawImage(watchFace, 0, 0);
-
-  const centerX = canvas.width / 2;
-  const centerY = canvas.height / 2;
-
-  const secondsAngle = (now.getSeconds() / 60) * (2 * Math.PI);
-  const minutesAngle =
-    (now.getMinutes() / 60) * (2 * Math.PI) + secondsAngle / 60;
-  const hoursAngle =
-    ((now.getHours() % 12) / 12) * (2 * Math.PI) + minutesAngle / 12;
-
-  await drawHand(context, hourHandPath, hoursAngle, centerX, centerY, 0.27);
-  await drawHand(context, minuteHandPath, minutesAngle, centerX, centerY, 0.25);
-  await drawHand(context, secondHandPath, secondsAngle, centerX, centerY, 0.28);
-
-  const buffer = canvas.toBuffer("image/png");
-
-  const filename = `perpetual-${now.getSeconds()}-${now.getMinutes()}-${now.getHours()}.png`;
-
-  const dst = path.join(process.env.BASE_IMG_PATH!, "images", filename);
-
-  return new Promise((resolve, reject) => {
-    fs.writeFile(dst, buffer, (err) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(filename);
-    });
-  });
-};
-
 export const drawClockGif = async (
   now: Date,
   watchFacePath: string,
@@ -169,6 +108,7 @@ export const drawClockGif = async (
   minuteHandPath: string,
   secondHandPath: string
 ) => {
+  // 3 frames, more will be too much $$
   const frames = [
     now,
     new Date(now.getTime() + 1000),
@@ -176,11 +116,12 @@ export const drawClockGif = async (
   ];
 
   const watchFace = await loadImage(watchFacePath);
+
   const encoder = new GifEncoder(watchFace.width, watchFace.height);
   encoder.start();
-  encoder.setRepeat(-1); // 0 for looping, -1 for no looping
-  encoder.setDelay(1000); // Delay in ms, adjust as needed
-  encoder.setQuality(10); // Quality from 1 (highest) to 20 (lowest), adjust as needed
+  encoder.setRepeat(-1); //no loop pls
+  encoder.setDelay(1000); // 1 frame per second
+  encoder.setQuality(10); // [1, 20]
 
   const filename = `perpetual-${now.getSeconds()}-${now.getMinutes()}-${now.getHours()}.gif`;
   const dst = path.join(process.env.BASE_IMG_PATH!, "images", filename);
@@ -226,3 +167,21 @@ export const drawClockGif = async (
   encoder.finish();
   return filename;
 };
+
+async function drawHand(
+  context: CanvasRenderingContext2D,
+  imagePath: string,
+  angle: number,
+  offsetX: number,
+  offsetY: number,
+  scaleX: number,
+  scaleY?: number
+) {
+  const handImage = await loadImage(imagePath);
+  context.save();
+  context.translate(offsetX + 10, offsetY + 40);
+  context.scale(scaleX, scaleY ?? scaleX);
+  context.rotate(angle);
+  context.drawImage(handImage, -handImage.width / 2, -handImage.height / 2);
+  context.restore();
+}

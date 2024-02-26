@@ -1,6 +1,14 @@
-# Welcome to Remix!
+# Farcaster Perpetual
 
-- [Remix Docs](https://remix.run/docs)
+![Farcaster Perpetual](https://highlight-creator-assets.highlight.xyz/main/image/020701a5-7afa-4607-a2c7-16c89c63f332.png)
+
+Summary:
+
+- Create 4 images, one for the bg, one for second, minute, hour hands
+- Align them all, make sure they're same size.
+- Do some pi math to find how much to rotate them to current time.
+- Generate the image n times and encode it into a gif.
+- Save it and serve it.
 
 ## Development
 
@@ -36,4 +44,3 @@ Make sure to deploy the output of `remix build`
 
 - `build/`
 - `public/build/`
-# perpetual
