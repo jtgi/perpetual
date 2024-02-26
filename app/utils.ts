@@ -202,15 +202,7 @@ export const drawClockGif = async (
     const hoursAngle =
       ((frame.getHours() % 12) / 12) * (2 * Math.PI) + minutesAngle / 12;
 
-    await drawHand(
-      context,
-      hourHandPath,
-      hoursAngle,
-      centerX,
-      centerY,
-      0.18,
-      0.27
-    );
+    await drawHand(context, hourHandPath, hoursAngle, centerX, centerY, 0.25);
     await drawHand(
       context,
       minuteHandPath,

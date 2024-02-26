@@ -37,7 +37,7 @@ export async function loader() {
     filename = await drawClockGif(
       now,
       baseUrl + "/fc-perpetual.png",
-      baseUrl + "/minute-silver.png",
+      baseUrl + "/hour-silver.png",
       baseUrl + "/minute-silver.png",
       baseUrl + "/second-silver.png"
     );
@@ -47,7 +47,7 @@ export async function loader() {
     title: "title",
     description: "description",
     aspectRatio: "1:1",
-    cacheTtlSeconds: 30,
+    cacheTtlSeconds: 60,
     image: `${baseUrl}/images/${filename}`,
     buttons: [
       {
