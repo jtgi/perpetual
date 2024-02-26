@@ -52,7 +52,7 @@ export async function loader() {
     buttons: [
       {
         text: "Mint",
-        link: "https://highlight.xyz/mint/65daea3e14d1e1cf26028d54",
+        link: "https://highlight.xyz/mint/65dbd7f2beb31448a261d2a0",
       },
     ],
   });
