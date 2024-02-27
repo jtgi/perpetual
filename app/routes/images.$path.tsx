@@ -21,5 +21,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
     });
   } catch (error) {
     console.error("couldnt find image", error);
+    return new Response("Not found", { status: 404 });
   }
 }

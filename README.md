@@ -17,8 +17,13 @@
 
 ```
 /highlight – p5.js / highlight code to generate dynamic artwork
-/\* – standard remix.run application that renders frames
+/* – standard remix.run application that renders frames
 ```
+
+## Assets
+
+- Modified from Rolex Explorer
+- Background generated with Midjourney
 
 ## Development
 
