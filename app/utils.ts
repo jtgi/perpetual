@@ -123,7 +123,10 @@ export const drawClockGif = async (
   encoder.setDelay(1000); // 1 frame per second
   encoder.setQuality(10); // [1, 20]
 
-  const filename = `perpetual-${now.getSeconds()}-${now.getMinutes()}-${now.getHours()}.gif`;
+  // note: i misunderstood `max-age`, it is for the image cache not the frame cache.
+  // since the original cast contains an image url to perpetual-56-59-0.gif
+  // I will instead continually update the contents of this specific file instead
+  const filename = `perpetual-56-59-0.gif`;
   const dst = path.join(process.env.BASE_IMG_PATH!, "images", filename);
 
   encoder.createReadStream().pipe(fs.createWriteStream(dst));
